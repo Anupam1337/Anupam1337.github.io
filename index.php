@@ -1,0 +1,346 @@
+<?php
+    $name = "";
+    $email = "";
+    $subject = "";
+    $msg = "";
+    $n_err = "";
+    $e_err = "";
+    $s_err = "";
+    $m_err = "";
+    $succ = "";
+    $err = "";
+    
+    if(isset($_POST['send'])) {
+        if(isset($_POST['fullname']) && $_POST['fullname'] != "")
+            $name = $_POST['fullname'];
+        else $n_err = "Name is empty";
+        if(isset($_POST['email']) && $_POST['email'] != "")
+            $email = $_POST['email'];
+        else $e_err = "Email is empty";
+        if(isset($_POST['subject']) && $_POST['subject'] != "")
+            $subject = $_POST['subject'];
+        else $s_err = "Subject is empty";
+        if(isset($_POST['msg']) && $_POST['msg'] != "")
+            $msg = $_POST['msg'];
+        else $m_err = "Message is empty";
+
+        if($n_err == "" && $e_err == "" && $s_err == "" &&  $m_err == "") {
+            $conn = new mysqli('localhost', 'mishra_user', '#N87997bin', 'mishrahomepage');
+            if($conn->connect_error) {
+                die('Connection Failed : ' . $conn->connect_error);
+            } else {
+                $stmt = $conn->prepare("INSERT INTO `contact_form`(`name`, `email`, `subject`, `message`, `seen`) VALUES(?, ?, ?, ?, ?)");
+                if($stmt == false) $err = $conn->errno . " " . $conn->error;
+                else {
+                    $seen = 0;
+                    $stmt->bind_param("ssssi", $name, $email, $subject, $msg, $seen);
+                    $stmt->execute();
+                    $succ = "Form has been submitted successfully";
+                    $stmt->close();
+                }
+                $conn->close();
+                $name = "";
+                $email = "";
+                $subject = "";
+                $msg = "";
+            }
+        } else {
+            $err = "Vaildation Error";
+        }
+    }
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANUPAM MISHRA</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://kit.fontawesome.com/899f6f824d.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+</head>
+<body>
+    <div class="scroll-up-btn">
+        <i class="fas fa-angle-up"></i>
+    </div>
+    <nav class="navbar">
+        <div class="max-width">
+            <div class="logo"><a href="#">Portfo<span>lio.</span></a></div>
+            <ul class="menu">
+                <li><a href="#home" class="menu-btn">Home</a></li>
+                <li><a href="#about" class="menu-btn">About</a></li>
+                <li><a href="#services" class="menu-btn">Services</a></li>
+                <li><a href="#skills" class="menu-btn">Skills</a></li>
+                <li><a href="#teams" class="menu-btn">Teams</a></li>
+                <li><a href="#contact" class="menu-btn">Contact</a></li>
+            </ul>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section Start -->
+    <section class="home" id="home">
+        <div class="max-width">
+            <div class="row">
+                <div class="home-content">
+                    <div class="text-1">Hello, my name is</div>
+                    <div class="text-2">Anupam Mishra</div>
+                    <div class="text-3">And I'm a <span class="typing"></span> </div>
+                    <a href="./Anupam_Mishra_Resume.pdf" download="">Hire me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- about section start -->
+    <section class="about" id="about">
+        <div class="max-width">
+            <h2 class="title">About me</h2>
+            <div class="about-content">
+                <div class="column left">
+                    <img src="images/anupam.jpeg" alt="My Photo">
+                </div>
+                <div class="column right">
+                    <div class="text">I'm Anupam Mishra and I'm a <span class="typing-2"></span></div>
+                    <p>I am Student in Master of Engineering - Computer Science and Engineering in Chandigarh University. I like to do coding and gaming. I have worked in Amazon as Software Development Engineer for 6 months. I love Competitive Programming and have 4 stars in Codechef.</p>
+                    <a href="./Anupam_Mishra_Resume.pdf" download="">Download Resume</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- service section start -->
+    <section class="services" id="services">
+        <div class="max-width">
+            <h2 class="title">My Services</h2>
+            <div class="serv-content">
+                <div class="skilled owl-carousel">
+                    <div class="card">
+                        <div class="box">
+                            <i class="fas fa-paint-brush"></i>
+                            <div class="text">Web Design</div>
+                            <p>I create Web pages and and Web apps on demand. I do Full stack development that covers all parts of projects.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="text">Web Hosting</div>
+                            <p>I also do paid Website Hosting and complete management of server including Database and SSL.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <i class="fas fa-code"></i>
+                            <div class="text">Bulk Mail Seller</div>
+                            <p>I sell bulk private mails on <a href="https://www.hexamail.in" class="links" style="background: none; color: crimson; border: none; padding: 0; margin: 0;">Hexamail</a>. All mail has prefix @hexamail.in or client's domain</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="box">
+                            <i class="fas fa-code"></i>
+                            <div class="text">PUG Servers and CS:GO Skins</div>
+                            <p>I create and sell CS:GO PUG servers with mod abd sell CS:GO skins, TF2 keys and steam level up service</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- skills sections start -->
+    <section class="skills" id="skills">
+        <div class="max-width">
+            <h2 class="title">My skills</h2>
+            <div class="skills-content">
+                <div class="column left">
+                    <div class="text">My creative skills & experience</div>
+                    <p>I have been working on Coding & Web development since 2012. After several computer coachings, I got grab on coding skills. During my graduation, I started e-learning for Competitive Codings on platform like Hackerrank, Codechef, etc. I started learning and making projects on web development at same time. I joined a startup company <a href="https://dotsforall.com/" class="links" style="background: none; color: crimson; border: none; padding: 0; margin: 0;">dotsforall</a>(a startup by my classmate). I also grabbed hands on experience on ethical hacking since 2015.<br>During my Internship in Amazon Pay I got to learn a lot of things and did projects like <a href="https://www.amazonpay.in" class="links" style="background: none; color: crimson; border: none; padding: 0; margin: 0;">amazonpay.in</a>, certain rest APIs for Merchant registration and managing bulk user in Super Merchant Dashboard, etc.<br>I started playing PC games since 2014. I started playing Counter-Strike:Global Offensive in 2016 and now I develop servers, mod and layouts for same.</p>
+                    <a href="#">Read more</a>
+                </div>
+                <div class="column right">
+                    <div class="bars">
+                        <div class="info">
+                            <span>HTML</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="line html"></div>
+                    </div>
+                    <div class="bars">
+                        <div class="info">
+                            <span>CSS</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="line css"></div>
+                    </div>
+                    <div class="bars">
+                        <div class="info">
+                            <span>JavaScript</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="line js"></div>
+                    </div>
+                    <div class="bars">
+                        <div class="info">
+                            <span>PHP</span>
+                            <span>50%</span>
+                        </div>
+                        <div class="line php"></div>
+                    </div>
+                    <div class="bars">
+                        <div class="info">
+                            <span>MySQL</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="line mysql"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- teams section start -->
+    <section class="teams" id="teams">
+        <div class="max-width">
+            <h2 class="title">My teams</h2>
+            <div class="carousel owl-carousel">
+                <div class="card">
+                    <div class="box">
+                        <img src="images/anupam.jpeg" alt="">
+                        <div class="text">Anupam Mishra</div>
+                        <p>Ex. Software Developement Engineer,<br>Amazon Pay IN</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="box">
+                        <img src="images/bhaskar.jpg" alt="">
+                        <div class="text">Bhaskar Kumar</div>
+                        <p>Advisory Analyst<br>(Cyber & Strategic Risk),<br>Deloitte</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="box">
+                        <img src="images/abhinay.jpg" alt="">
+                        <div class="text">Abhinay Pathania</div>
+                        <p>Graphic Designer<br><a class="links" style="background: none; color: #fff; border: none; padding: 0; margin: 0;" href="http://pixelsevenx.com/" target="_blank">PixelSevenx.com</a></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="box">
+                        <img src="images/binay.jpg" alt="">
+                        <div class="text">Binay Prakash Rout</div>
+                        <p>Front-end Developer<br>Freelancer, Gamer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- contact section start -->
+    <section class="contact" id="contact">
+        <div class="max-width">
+            <h2 class="title">Contact me</h2>
+            <div class="contact-content">
+                <div class="column left">
+                    <div class="text">Get in Touch</div>
+                    <p>I majorly help in Web and Software Development projects. I am also looking for Developer jobs in good company. For any projects or suggestions feel free to connect with me.</p>
+                    <div class="icons">
+                        <div class="row">
+                            <i class="fas fa-user"></i>
+                            <div class="info">
+                                <div class="head">Name</div>
+                                <div class="sub-title">Anupam Mishra</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="info">
+                                <div class="head">Address</div>
+                                <div class="sub-title">Prayagraj, Allahabad, Uttar Pradesh</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <i class="fas fa-user"></i>
+                            <div class="info">
+                                <div class="head">Email</div>
+                                <div class="sub-title">anupamsde@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column right">
+                    <div class="text">Message me</div>
+                    <form class="contact-form" method="POST">
+                        <div class="fields">
+                            <div class="field name">
+                                <input name="fullname" <?php if($n_err != "") echo "style='border: 2px solid crimson; margin-bottom: 10px;'";?> type="text" placeholder="Name" class="fullname" value="<?=$name?>" required>
+                                <div class="err">
+                                <?php if($n_err != "") {
+                                    echo $n_err;
+                                }
+                                ?>
+                                </div>
+                            </div>
+                            <div class="field email">
+                                <input name="email" <?php if($e_err != "") echo "style='border: 2px solid crimson; margin-bottom: 10px;'";?> type="email" class="email-input" placeholder="Email" value="<?=$email?>" required>
+                                <div class="err">
+                                <?php if($e_err != "") {
+                                    echo $e_err;
+                                }
+                                ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <input name="subject" <?php if($s_err != "") echo "style='border: 2px solid crimson; margin-bottom: 10px;'";?> type="text" class="subject" placeholder="Subject" value="<?=$subject?>" required>
+                            <div class="err">
+                                <?php if($s_err != "") {
+                                    echo $s_err;
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="field textarea">
+                            <textarea name="msg" <?php if($m_err != "") echo "style='border: 2px solid crimson; margin-bottom: 10px;'";?> class="message" cols="30" rows="10" placeholder="Message..." required><?=$msg?></textarea>
+                            <div class="err">
+                                <?php if($m_err != "") {
+                                    echo $m_err;
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="msg">
+                            <div class="errs">
+                                <?=$err?>
+                            </div>
+                            <div class="succ">
+                                <?=$succ?>
+                            </div>
+                        </div>
+                        <div class="button-area">
+                            <button type="submit" class="send-msg" name="send">Send message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer section start -->
+    <footer>
+        <span>Created By <a href="http://www.mishraanupam.com" target="_blank">Sam</a>  |  <span class="far fa-copyright"></span>2021 All rights reserved.</span>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
